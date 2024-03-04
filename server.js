@@ -17,16 +17,20 @@ app.get('/states', (req, res) => {
 });
 
 // Endpoint to get cities of a specific state
+// app.get('/states/cities', (req, res) => {
+//     const stateName = req.query.state;
+//     const stateCities = cities.filter(city => city.state_name === stateName);
+//     const data = stateCities.distinct('city')
+    
+//     res.json(data);
+// });
+
 app.get('/states/cities', (req, res) => {
     const stateName = req.query.state;
     const stateCities = cities.filter(city => city.state_name === stateName);
-    const data = stateCities.map((item) => {
-        return {
-            city: item.name
-        };
-    });
+    const uniqueCities = [...new Set(stateCities.map(city => city.name))];
     
-    res.json(data);
+    res.json(uniqueCities);
 });
 
 app.listen(PORT, () => {
